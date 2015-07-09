@@ -25,7 +25,7 @@ Be aware that WebHiob uses <a href="https://projectlombok.org/index.html">Projec
 
 To run WebHiob you should use the gradle "build" task.
 
-
+Click <a href="https://www.youtube.com/watch?v=BPk--ovzrDU">here</a>  to see full video showing all steps to run.
 
 
 
