@@ -3,7 +3,7 @@
 Welcome in WebHiob - interactive learining environment for security of modern web applications.
 
 WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute  of Computer Science).
-If you have any questions, please do not hesitate to contact with the <a href="mailto:robertrozmusjob@gmail.com">author</a>.
+If you have any questions, please do not hesitate to contact with <a href="mailto:robertrozmusjob@gmail.com">me</a>.
 
 Copyright (c) 2015 Robert Rozmus
 
