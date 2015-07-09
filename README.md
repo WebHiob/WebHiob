@@ -5,18 +5,22 @@ Welcome in WebHiob - interactive learining environment for security of modern we
 WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute  of Computer Science).
 If you have any questions, please do not hesitate to contact with the <a href="mailto:robertrozmusjob@gmail.com">author</a>.
 
-<h4>Licence</h4>
-
 Copyright (c) 2015 Robert Rozmus
 
-This program has got two licences:
-  <ul>
-    <li>
-      For non-commercial use - you can redistribute it and/or modify it under the terms of the
-                    GNU General Public License version 3.0 (GPLv3)
-                </li>
-                <li class="list-group-item">
-                    For any commercial use (including payable academic lectures) - you must obtain the permission from the author
-                    (Robert Rozmus) to use it in these purposes
-                </li>
-            </ul>
+<h4>How to run</h4>
+
+To run WebHiob it is required to provide:
+<ol>
+  <li>  <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html">Java SE Development Kit 7  </a> </li>
+<li> <a href="https://gradle.org">Gradle</a> </li>
+<li> an IDE supporting Gradle (recommended  <a href="https://www.jetbrains.com/idea">InteliiJ IDEA</a> )</li>
+<li> <a href="http://tomcat.apache.org">Tomcat</a> (version 7 or 8) </li>
+<li> <a href="http://www.gwtproject.org/download.html">GWT SDK</a> </li>
+</ol>
+
+
+
+<h4>Warnings</h4>
+While running WebHiob your machine will be vulnerable to attack, therefore you should disconnect from the Internet while using it.
+
+The WebHiob environment is for educational purposes only. You should not try to attempt these techniques on the Internet without authorization, because it is against to the law.
