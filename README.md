@@ -18,6 +18,15 @@ To run WebHiob it is required to provide:
 <li> <a href="http://www.gwtproject.org/download.html">GWT SDK</a> </li>
 </ol>
 
+To be able to take advantage of all lessons it is recommended to install <a href="https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project">Zed Attack Proxy</a> (or
+similar tool allowing to intercept HTTP requests and responses).
+
+Be aware that WebHiob uses <a href="https://projectlombok.org/index.html">Project Lombok</a>, therefore before compilation you must enable annotation processing (In IntelliJ IDEA it could be done by pressing the File->Settings -> Build, Execution, Deployment -> Compiler -> Annotation Processors tab and checking the "Enable annotation processing" checkbox.
+
+To run WebHiob you should use the gradle "build" task.
+
+
+
 
 
 <h4>Warnings</h4>
