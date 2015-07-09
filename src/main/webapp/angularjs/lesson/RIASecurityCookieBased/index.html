@@ -1,0 +1,74 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div ng-controller="RIASecurityCookieBasedController">
+
+
+    <div class="lessonIntroduction paddingAll">
+        In this lesson there are two tabs:
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                public - containing the not protected message, that is available under the
+                request to the /facelets/riaCookie/public URL
+            </li>
+            <li  class="list-group-item">
+                secret - containing the secret message, that is available under the request to the
+                /facelets/riaCookie/secret URL (the content is visible only for the authenticated
+                users)
+            </li>
+        </ul>
+
+        If an unauthenticated user click on the secret tab, he will see the empty content
+        instead of the secret message, due to using the Spring Security configuration, that is shown below:
+
+
+        <pre>
+            <code>
+&lt;http auto-config="true" use-expressions="true"&gt;
+    &lt;intercept-url pattern="/facelets/riaCookie/secret" access="isAuthenticated()"/&gt;
+    &lt;remember-me user-service-ref="userDetailsService"/&gt;
+&lt;/http&gt;
+            </code>
+
+        </pre>
+
+        Please be aware that protected is only the message from the server (not the entire content of the tab).
+        <br/>
+        <br/>
+        To complete the lesson, you have to provide, that after clicking on the
+        secret tab, an unauthenticated person will see the login page (available under the
+        <span class="italic">/angularjs/#/RIASecurityCookieBased/lesson/loginTab</span> URL) instead of the empty
+        content.
+
+    </div>
+
+
+    <ul class="nav nav-tabs">
+
+        <li ng-class="{active: $routeSegment.contains('publicTab')}">
+            <a href="#/RIASecurityCookieBased/lesson/publicTab">Public</a>
+        </li>
+        <li ng-class="{active: $routeSegment.contains('secretTab')}">
+            <a href="#/RIASecurityCookieBased/lesson/secretTab">Secret</a>
+        </li>
+    </ul>
+
+    <div app-view-segment="1" class="anim paddingAll">No tab selected.</div>
+</div>

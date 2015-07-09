@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="../../index.xhtml">
+
+    <ui:define name="content">
+
+        User interface of WebHiob is self-explanatory. Each lesson contains three tabs: lesson, security problem and solution.
+        Each tab's content provides description, therefore you should not have any problem with using WebHiob.
+        <br/>
+        To be able to take advantage of all lessons it is recommended to install <a
+            href="https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project">Zed Attack Proxy </a>
+        (or similar tool allowing to intercept HTTP requests and responses).
+        <br/>
+        <br/>
+        This tab contains the lesson, whose name is displayed above of the name of the tab.
+
+        <h4>Aim of the lessons</h4>
+        On successful completion of each lesson you will be able to:
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item"> test web applications for the specified attack</li>
+                    <li class="list-group-item"> protect web applications from the specified attacks</li>
+                </ul>
+            </div>
+        </div>
+        The learning steps:
+        <ul class="list-group">
+            <li class="list-group-item">
+                1. Read the content of the lesson's tab and try to find security problem and solution on your own.
+            </li>
+            <li class="list-group-item">
+                2. If you will not be able to find the security problem, you should read the content of 'Security problem' tab, perform the attack and localize each described vulnerable code fragment in
+                WebHiob and ensure that you understand why the attack is possible. If you were able to find security problem, you should also read
+                this content to ensure that you have understood everything right. This content could also contain more generic description, therefore anyway it is valuable to read it.
+            </li>
+            <li class="list-group-item">
+                3. If you will not be able to find solution how to protect WebHiob, you should read the content of 'Solution' tab, perform the solution in
+                WebHiob and ensure that attack is no more possible. If you were able to find security problem, you should also read
+                this content to ensure that you have done everything right. This content could also contain more generic description, therefore anyway it is valuable to read it.
+            </li>
+        </ul>
+
+        To avoid repeating in each description of how to complete the lesson, the part that the user should find vulnerable code fragment and then protect WebHiob, is omitted.
+
+        <h4> WARNING 1</h4>
+        While running WebHiob your machine will be vulnerable to attack, therefore you should disconnect from the Internet while using it.
+
+        <h4>WARNING 2</h4>
+        WebHiob is for educational purposes only. You should not try to attempt these techniques on the Internet without authorization, because it is against to the law.
+
+    </ui:define>
+</ui:composition>
+</html>

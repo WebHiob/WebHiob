@@ -1,0 +1,84 @@
+group 'WebHiob'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.7
+
+ext {
+    hibernateVersion = "4.3.10.Final"
+    springVersion = "4.1.7.RELEASE"
+    springSecurityVersion = "3.2.5.RELEASE"
+    jacksonVersion = "2.5.4"
+    jsfVersion = "2.2.9"
+    gwtVersion = "2.7.0"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Project Lombok
+    compile "org.projectlombok:lombok:1.14.8"
+
+    // apache click
+    compile "org.apache.click:click:2.3.0"
+
+    // Spring Framework
+    compile "org.springframework:spring-core:$springVersion"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-web:$springVersion"
+    compile "org.springframework:spring-tx:$springVersion"
+    compile "org.springframework:spring-orm:$springVersion"
+    compile "org.springframework:spring-test:$springVersion"
+
+    // Spring Security
+    compile "org.springframework.security:spring-security-web:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-config:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-core:$springSecurityVersion"
+    compile "org.springframework.security:spring-security-taglibs:$springSecurityVersion"
+
+    // Spring Faces
+    compile "org.springframework.webflow:spring-faces:2.4.1.RELEASE"
+
+    // JSF
+    compile "com.sun.faces:jsf-api:$jsfVersion"
+    compile "com.sun.faces:jsf-impl:$jsfVersion"
+
+    // JSTL
+    compile "javax.servlet:jstl:1.2"
+
+    // Servlet API
+    compile "javax.servlet:javax.servlet-api:3.1.0"
+
+    //GWT
+    compile "com.google.gwt:gwt-servlet:$gwtVersion"
+    compile "com.google.gwt:gwt-dev:$gwtVersion"
+    compile "com.google.gwt:gwt-user:$gwtVersion"
+
+    // Jackson
+    compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+
+    //JPA
+    compile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+   // compile 'org.hibernate:hibernate-validator:5.2.0.Beta1'
+    compile "org.hibernate:hibernate-core:$hibernateVersion"
+
+    //hsql
+    compile "org.hsqldb:hsqldb:2.3.2"
+
+    //MySQL
+    compile "mysql:mysql-connector-java:5.1.35"
+
+    compile 'commons-dbcp:commons-dbcp:1.2.2'
+    compile "javax:javaee-api:7.0"
+    compile "javax.inject:javax.inject:1"
+    compile "javax.annotation:jsr250-api:1.0"
+    compile "com.mikesamuel:json-sanitizer:1.0"
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

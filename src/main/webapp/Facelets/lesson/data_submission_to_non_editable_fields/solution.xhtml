@@ -1,0 +1,40 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+   Spring MVC is prepared for this security issue and provides the following methods
+   for the data binder: <span class="italic">setAllowedFields</span> and
+    <span class="italic">setDisallowedFields</span>. It is
+   always recommended to provide a <span class="italic">white-list</span> validation, however if only one field
+   should not be bound, then it is more convenient to use the <span class="italic">setDisallowedFields</span>
+   method. In this lessons only the <span class="italic">login</span> filed should not be bound, therefore the
+   latter method is a good choice. The code providing the security is shown below and should be used in the
+    <span class="className">DataSubmissionToNonEditableFieldsController</span> class:
+
+   <pre class="java">
+      <code>
+         @InitBinder
+         public void initBinder(WebDataBinder binder) {
+            binder.setDisallowedFields("login");
+         }
+      </code>
+   </pre>
+
+</div>

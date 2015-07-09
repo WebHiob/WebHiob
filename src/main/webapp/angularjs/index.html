@@ -1,0 +1,83 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<!doctype html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>WebHiob</title>
+    <link rel="stylesheet" type="text/css" href="../shared/bootstrap-3.3.4-dist/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="../shared/jstree/themes/default/style.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../shared/highlight/styles/default.css">
+    <link rel="stylesheet" type="text/css" href="css/angularjs.css">
+
+    <script type="text/javascript" src="../shared/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="../shared/angularjs/angular-route.min.js"></script>
+    <script type="text/javascript" src="../shared/angularjs/angular-resource.min.js"></script>
+    <script type="text/javascript" src="../shared/angular-route-segment.min.js"></script>
+    <script type="text/javascript" src="../shared/jquery/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="../shared/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../shared/jstree/jstree.min.js"></script>
+    <script type="text/javascript" src="../shared/highlight/highlight.pack.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/LessonTree.js"></script>
+    <script type="text/javascript" src="js/controller/MainController.js"></script>
+    <script type="text/javascript" src="js/controller/JsonpXSSController.js"></script>
+    <script type="text/javascript" src="js/controller/RIASecurityCookieBasedController.js"></script>
+    <script type="text/javascript" src="js/controller/RIASecurityTokenBasedController.js"></script>
+</head>
+<body>
+<div class="centre">
+    <h1>WebHiob</h1>
+
+    <h2 class="centre">AngularJS</h2>
+</div>
+
+<div class="container-fluid">
+
+    <div ng-controller="MainController">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div>Lessons</div>
+                <div id="lessonTree"></div>
+            </div>
+
+            <div class="col-md-8 bigPadding">
+                <h3> {{chosenLesson}}</h3>
+                <ul class="nav nav-tabs">
+                    <li id="lesson" ng-class="{active: ('lessonSegment' | routeSegmentStartsWith)}">
+                        <a href="#{{'lessonSegment' | routeSegmentUrl}}">Lesson</a>
+                    </li>
+                    <li id="problem" ng-class="{active: ('problemSegment' | routeSegmentStartsWith)}">
+                        <a href="#{{'problemSegment' | routeSegmentUrl}}">Security problem</a>
+                    </li>
+                    <li id="solution" ng-class="{active: ('solutionSegment' | routeSegmentStartsWith)}">
+                        <a href="#{{'solutionSegment' | routeSegmentUrl}}">Solution</a>
+                    </li>
+                </ul>
+                <div>
+                    <div app-view-segment="0" id="content" class="paddingAll"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

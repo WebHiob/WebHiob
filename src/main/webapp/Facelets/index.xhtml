@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>WebHiob</title>
+
+    <link rel="stylesheet" type="text/css" href="/shared/analog_clock/css/clock.css"/>
+    <link rel="stylesheet" type="text/css" href="/shared/jquery_ui/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="/shared/bootstrap-3.3.4-dist/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/shared/jstree/themes/default/style.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/Facelets/css/facelets.css"/>
+    <link rel="stylesheet" href="/shared/highlight/styles/default.css"/>
+
+    <script type="text/javascript" src="/shared/jquery/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/shared/jquery_ui/jquery-ui.js"></script>
+    <script type="text/javascript" src="/shared/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/shared/jquery.countdown.js"></script>
+    <script type="text/javascript" src="/shared/jstree/jstree.min.js"></script>
+    <script type="text/javascript" src="/shared/highlight/highlight.pack.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+    <script type="text/javascript" src="/Facelets/js/LessonTree.js"></script>
+    <script type="text/javascript" src="/Facelets/js/init.js"></script>
+</h:head>
+
+<h:body>
+
+    <div class="centre">
+        <h1>WebHiob</h1>
+
+        <h2 class="centre">Facelets</h2>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div>Lessons</div>
+                <div id="lessonTree"></div>
+            </div>
+
+            <div class="col-md-8 bigPadding">
+                <h3>#{lessonPathBean.lessonName}</h3>
+                <ui:insert name="tabs">
+                    <ul class="nav nav-tabs">
+                        <li><a href="#lessonTab" data-toggle="tab">Lesson</a></li>
+                        <li><a href="#problemTab" data-toggle="tab">Security problem</a></li>
+                        <li><a href="#solutionTab" data-toggle="tab">Solution</a></li>
+                    </ul>
+                    <div class="tab-content" id="tabs">
+                        <div id="lessonTab" class="tab-pane paddingAll">
+                            <ui:insert name="content"/>
+                        </div>
+                        <div id="problemTab" class="tab-pane paddingAll">
+                            <ui:include src="#{lessonPathBean.problemPath}"/>
+                        </div>
+                        <div id="solutionTab" class="tab-pane paddingAll">
+                            <ui:include src="#{lessonPathBean.solutionPath}"/>
+                        </div>
+                    </div>
+                </ui:insert>
+            </div>
+        </div>
+    </div>
+</h:body>
+</html>

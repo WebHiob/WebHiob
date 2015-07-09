@@ -1,0 +1,93 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<html>
+<head>
+    <link rel="stylesheet" href="../../../shared/highlight/styles/default.css"/>
+    <link rel="stylesheet" href="../../css/gwt.css"/>
+
+    <script src="../../../shared/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+
+TThe function returning a list of employees based on the name parameter using
+JPQL in WebHiob is shown below (from the <span class="className">EmployeeRepositoryImpl</span>
+class):
+
+<pre><code class="java">
+    @Override
+    public List&lt;Employee&gt; getJPQLEmployeeByName(String nameParameter)
+    {
+        String q = "SELECT e FROM Employee e WHERE e.name = '" + nameParameter + "'";
+        TypedQuery&lt;Employee&gt; query = entityManager.createQuery(q, Employee.class);
+        return query.getResultList();
+    }
+</code>
+</pre>
+
+Although JPQL looks very similar to SQL, it does not allow to perform the same
+injections' techniques. To see the difference, this lesson allows to make the same
+query using JPQL and SQL provided by the JPA native query (respectively by the
+<span class="italic">Search via JPQL</span> and <span class="italic">Search via SQL</span> buttons). The function
+responsible for the SQL results is shown below (from the <span class="className">EmployeeRepositoryImpl</span> class):
+
+<pre><code class="java">
+    @Override
+    public List&lt;Employee&gt; getSQLEmployeeByName(String nameParameter)
+    {
+        String q = "SELECT e.id, e.name, e.password , e.city FROM Employee e WHERE e.name = '" + nameParameter + "'";
+        Query nativeQuery = entityManager.createNativeQuery(q, Employee.class);
+        return nativeQuery.getResultList();
+    }
+</code>
+</pre>
+
+The user has got a text field, where he types a name parameter. If he enters
+Jan, the JPQL query will return the details of Jan and it will look as follows:
+
+<pre><code class="sql">
+ SELECT e FROM Employee e WHERE e.name= 'Jan'
+</code></pre>
+
+If he types: ' or 1 = 1 or e.name = ', the JPQL query will return all employees
+(doing the same by SQL query is a bit easier - ' or 1 = 1 - -') and it will look as
+follows:
+
+<pre><code class="sql">
+    SELECT e FROM Employee e WHERE e.name= '' or 1 = 1 or e.name = ''
+</code></pre>
+
+JPQL does not support comments and UNION keyword, thus it does not allow
+to perform more sophisticated injection attacks. Example of injection using UNION
+can be performed by entering in the field the following chars:
+<pre><code class="sql">
+    ' UNION SELECT e1.id, concat(e1.name, ' ', e1.password ), e1.name, e1.name FROM Employee e1 -- a
+</code></pre>
+which causes sending the query returning all employees' passwords and looking as
+follows:
+<pre><code class="sql">
+    SELECT e.id, e.name, e.password , e.city FROM Employee e WHERE e.name= ''
+        UNION SELECT e1.id, concat(e1.name, ' ', e1.password ), e1.name, e1.name
+            FROM Employee e1 -- a'
+</code></pre>
+
+</body>
+</html>
+

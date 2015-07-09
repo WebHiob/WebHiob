@@ -1,0 +1,69 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+<div ng-controller="JsonpXSSController">
+
+    <div class="lessonIntroduction">
+        You can make an Ajax request to get a JSONP response using two buttons:
+        <div class="paddingAll">
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="bold">prepared request</span> - request to WebHiob with the following URL returning
+                    JSONP response with XSS attack: <span class="italic">/facelets/jsonpAngular/insecure?callback=JSON_CALLBACK</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="bold">custom request</span> - request to any url to check Jsonp XSS attack, however
+                    remember to add the callback URL parameter with name "JSON_CALLBACK" (analogous to the prepared
+                    request's URL)
+                </li>
+            </ul>
+
+        </div>
+        You will see the JSONP response below the buttons or 'error' message in the case of error.
+        <br/>
+        <br/>
+        To complete this lesson the user should press the <span class="italic">prepared request</span>
+        button and see the results of the attack and response. Additionally the user can
+        test any other URL providing the JSONP XSS attack (e.g. from web pages teaching
+        about JSONP attacks).
+
+    </div>
+
+    <div class="row paddingAll">
+        <div class="col-lg-2">
+            <button ng-click="doRequest()" class="btn btn-default" type="button"><span
+                    class="bold">prepared request</span></button>
+        </div>
+        <div class="col-lg-1">
+
+        </div>
+        <div class="col-lg-4">
+            <div class="input-group">
+                <input id="url" ng-model="customUrl" type="text" class="form-control" placeholder="URL">
+      <span class="input-group-btn">
+        <button ng-click="doCustomRequest()" class="btn btn-default" type="button"><span
+                class="bold">custom request</span></button>
+      </span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="paddingAll"><span class="bold">Response: </span><span>{{jsonpResponse}}</span></div>
+</div>

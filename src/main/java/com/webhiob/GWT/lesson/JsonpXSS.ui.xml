@@ -1,0 +1,64 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+
+    <g:VerticalPanel>
+        <g:HTMLPanel addStyleNames="space">
+            <div class="divContent">
+                You can make an Ajax request to get a JSONP response using two buttons:
+                <div>
+                    <ul>
+                        <li>
+                            <span class="bold">prepared request</span> - request to WebHiob with the following URL returning
+                            JSONP response with XSS attack: <span class="italic">/facelets/jsonpGWT/insecure?callback=JSON_CALLBACK</span>
+                        </li>
+                        <li>
+                            <span class="bold">custom request</span> - request to any url to check Jsonp XSS attack (you don't have to add callback parameter name and value if
+                            the parameter has got "callback" name; if you need any other parameter, then write callback parameter as first)
+                        </li>
+                    </ul>
+
+                </div>
+                You will see the JSONP response below the buttons or 'error' message in the case of error.
+                <br/>
+                <br/>
+                To complete this lesson the user should press the <span class="italic">prepared request</span>
+                button and see the results of the attack and response. Additionally the user can
+                test any other URL providing the JSONP XSS attack (e.g. from web pages teaching
+                about JSONP attacks).
+
+            </div>
+
+        </g:HTMLPanel>
+        <g:HorizontalPanel addStyleNames="space">
+            <g:Button ui:field="preparedRequestButton" addStyleNames="bold">Prepared request</g:Button>
+            <g:TextBox ui:field="customUrlTextBox" addStyleNames="bigMarginLeft"/>
+            <g:Button ui:field="customRequestButton" addStyleNames="bold">Custom request</g:Button>
+        </g:HorizontalPanel>
+        <g:HorizontalPanel>
+            <g:Label addStyleNames="bold">Results: </g:Label>
+            <g:Label ui:field="jsonpResultLabel" addStyleNames="marginLeftSmall"/>
+        </g:HorizontalPanel>
+
+
+    </g:VerticalPanel>
+
+</ui:UiBinder>

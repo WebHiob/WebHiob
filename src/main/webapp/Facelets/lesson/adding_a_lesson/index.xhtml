@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="../../index.xhtml">
+    <ui:define name="tabs">
+
+        <ul class="nav nav-tabs">
+            <li><a href="#lessonTab" data-toggle="tab">Description</a></li>
+            <li><a href="#faceletsTab" data-toggle="tab">Facelets</a></li>
+            <li><a href="#angularJSTab" data-toggle="tab">AngularJS</a></li>
+            <li><a href="#GWTTab" data-toggle="tab">GWT</a></li>
+        </ul>
+        <div class="tab-content" id="tabs">
+            <div id="lessonTab" class="tab-pane paddingAll">
+                <ui:include src="description.xhtml"/>
+            </div>
+            <div id="faceletsTab" class="tab-pane paddingAll">
+                <ui:include src="facelets.xhtml"/>
+            </div>
+            <div id="angularJSTab" class="tab-pane paddingAll">
+                <ui:include src="angular.xhtml"/>
+            </div>
+            <div id="GWTTab" class="tab-pane paddingAll">
+                <ui:include src="gwt.xhtml"/>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

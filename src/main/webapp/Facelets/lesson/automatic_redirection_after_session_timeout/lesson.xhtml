@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="../../index.xhtml">
+
+    <ui:define name="content">
+
+        <div class="lessonIntroduction marginBottom">
+
+            Assume that there is a bank web page, where a user can view his private
+            information about his money transfers. The session timeout is set to one minute
+            and the configuration of the Spring Security framework looks as follow:
+
+            <pre>
+                <code>
+&lt;http auto-config="true" use-expressions="true"&gt;
+        &lt;intercept-url pattern="/facelets/automatic_redirection_after_session_timeout/lesson"
+                                                     access="isAuthenticated()"/&gt;
+
+    &lt;form-login
+          login-page="/facelets/automatic_redirection_after_session_timeout/login"/&gt;
+    &lt;remember-me user-service-ref="userDetailsService"/&gt;
+&lt;/http&gt;
+                </code>
+            </pre>
+
+            In this lesson you will see your money transfer history and the countdown
+            timer set to one minute, which equals the session timeout.
+
+            <br/>
+            <br/>
+            To complete this lesson,
+            you have to wait one minoute  till the session expires and notice, that you will not
+            be redirected to the other page, that makes your private information still visible.
+        </div>
+
+
+        <h4> Session expires in </h4>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="countdown callback"></div>
+            </div>
+        </div>
+
+        <h4>Money transfer history</h4>
+
+        <table>
+            <tr>
+                <th>Account number</th>
+                <th>Amount ($)</th>
+                <th>Date</th>
+            </tr>
+            <tr>
+                <td>20943820439480</td>
+                <td>30000</td>
+                <td>18/05/2015</td>
+            </tr>
+            <tr>
+                <td>54654645645648</td>
+                <td>500</td>
+                <td>24/03/2015</td>
+            </tr>
+            <tr>
+                <td>34324927349827</td>
+                <td>1000</td>
+                <td>12/02/2015</td>
+            </tr>
+        </table>
+
+
+        <script type="text/javascript">
+            $(function () {
+                var sessionTimeoutInSec = 60;
+                $('.countdown.callback').countdown({
+                    date: +(new Date) + sessionTimeoutInSec * 1000 + 1,
+                    render: function (data) {
+                        $(this.el).text(this.leadingZeros(data.min, 2) + " min " + this.leadingZeros(data.sec, 2) + " sec");
+                    },
+                    onEnd: function () {
+                        $(this.el).addClass('ended');
+                    }
+                });
+
+
+                /*
+                //
+                //
+                //
+                // solution of the Automatic redirection to the login page after the session expires lesson
+                //
+                //
+                //
+                setInterval(function () {
+                    $.ajax({
+                        type: 'GET',
+                        url: "/facelets/automatic_redirection_after_session_timeout/time",
+                        dataType: "json",
+                        success: function (data) {},
+                        statusCode: {
+                            901: function (response) {
+                                window.location.replace
+                                ("/facelets/lesson/automatic_redirection_after_session_timeout");
+                            }
+                        }
+                    });
+                }, 1000);
+                */
+            });
+        </script>
+    </ui:define>
+</ui:composition>
+</html>

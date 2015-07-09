@@ -1,0 +1,30 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+    Leaving the existing <span class="italic">Spring Security</span> configuration without any changes
+    will make, that the session will never expire. It could seem impossible, because
+    the session timeout is set to one minute. However to the server are coming the
+    requests every 500 ms (through Ajax). The default Spring's filters do not make
+    any difference if the request is through Ajax or not. Therefore every 500 ms the
+    session is refreshed, which causes that finally the session will never expire. Thus
+    to complete this lesson the user does not have to do anything special - just click
+    on the link after one minute and view the secret page, which will be sent the the
+    browser, because the session will be still valid.
+</div>

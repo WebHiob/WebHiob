@@ -1,0 +1,105 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<html>
+<head>
+    <link rel="stylesheet" href="../../../shared/highlight/styles/default.css"/>
+    <link rel="stylesheet" href="../../css/gwt.css"/>
+
+    <script src="../../../shared/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<div>
+
+
+    There is no way to provide a JSONP response data validation on the client side,
+    therefore the only solution to protect from JSONP XSS attack is to load the data
+    by own server, provide a validation and then send back the data to the browser. It
+    makes that the own server will be more loaded, but it provides the safety.
+    <br>
+
+    The proposed solution for this security problem is to make a typical JSON
+    request to the own server (with the same origin) with the callback parameter
+    and the URL parameter, whose value specifies where the user want to make a
+    cross-origin request.
+    Server downloads the potentially malicious data and makes
+    a validation. However
+    these data are not dangerous for the server, because it does not evaluate any JavaScript
+    commands. After validation the server returns the safe
+    data as a JSONP response to the browser.
+    The method providing the solution is shown below and you should use it in the <span
+        class="className">JsonpXSSController</span> class:
+
+ 	<pre><code class="java">
+        @RequestMapping(value = "/secure")
+        public String secureJsonp(@RequestParam(value = "url") String url,
+                        @RequestParam(value = "callback") String callback) throws IOException
+        {
+            String secureJsonp;
+            URL insecureUrl = new URL(url + "?callback=" + callback);
+            try (InputStream inputStream = insecureUrl.openStream();
+                BufferedReader in = new BufferedReader(new InputStreamReader(inputStream)))
+            {
+                String jsonpResponse = "";
+                String inputLine;
+                while ((inputLine = in.readLine()) != null)
+                {
+                    jsonpResponse += inputLine;
+                }
+                secureJsonp = Parser.jsonpToSafeJsonParser(jsonpResponse);
+                secureJsonp = callback + "(" + secureJsonp + ");";
+            }
+            return secureJsonp;
+        }
+    </code>
+      </pre>
+    The <span class="italic">jsonpToSafeJsonParser</span> method of the <span class="className">Parser</span> class uses the <span class="className">JsonSanitizer</span> class
+    from the OWASP JSON Sanitizer library providing a JSON validation. The result of using the 'secureJsonp' method  after
+    performing the same JSONP XSS attack, is shown below:
+    <pre>
+        <code>
+            CALLBACK({"date":"09:04:49","attack":"alert","JSONP XSS":null});
+        </code>
+    </pre>
+    The alert function and parameter have been divided and the brackets have been
+    removed, therefore the attack is no more possible.
+    <br/>
+    <br/>
+
+    Additionally you have to replace the body of two methods from the <span class="className">JsonpXSS</span> class with the
+    following:
+
+	<pre><code class="java">
+        private String getPreparedUrl() {
+            String protocolHostAndPort = Window.Location.getProtocol() + "//" + Window.Location.getHost();
+            return "/facelets/jsonpGWT/secure?url=" + protocolHostAndPort + URLConstants.JSONP_INSECURE;
+        }
+
+        private String getCustomUrl(String url) {
+            return "/facelets/jsonpGWT/secure?url=" + url;
+        }
+    </code>
+		</pre>
+
+
+</div>
+
+</body>
+</html>

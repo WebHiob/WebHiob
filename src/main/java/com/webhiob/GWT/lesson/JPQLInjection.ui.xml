@@ -1,0 +1,71 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+
+    <g:ScrollPanel>
+        <g:VerticalPanel>
+            <g:HTMLPanel styleName="divContent">
+                <div>
+                    You can search the database to find information about the employee (Jan, Bob or Ela), whose name is written in the
+                    search box below, using two buttons below (additionally you will see the query which will be performed):
+                    <ul>
+                        <li>
+                            Search via JPQL - the query will be performed by JPQL;
+                        </li>
+                        <li>
+                            Search via SQL - the query will be performed by SQL provided by native JPA query).
+                        </li>
+                    </ul>
+                    To complete this lesson:
+                    <ul>
+                        <li>
+                            Get city of one of existing employees (e.g. for Bob) using JPQL and SQL queries.
+                        </li>
+                        <li>
+                            Get cities of all employees using JPQL Injection.
+                        </li>
+                        <li>
+                            Get passwords of all employees using SQL Injection.
+                        </li>
+                    </ul>
+                </div>
+            </g:HTMLPanel>
+            <g:HorizontalPanel addStyleNames="space">
+                <g:Label addStyleNames="paddingRight">Search the employee by name:</g:Label>
+                <g:TextBox ui:field="searchTextBox"/>
+            </g:HorizontalPanel>
+            <g:HorizontalPanel addStyleNames="space">
+                <g:Label addStyleNames="bold paddingRight">Query:</g:Label>
+                <g:Label ui:field="queryLabel"/>
+            </g:HorizontalPanel>
+            <g:HorizontalPanel addStyleNames="space">
+                <g:Button ui:field="searchJPQLButton">Search via JPQL</g:Button>
+                <g:Button ui:field="searchSQLButton">Search via SQL</g:Button>
+            </g:HorizontalPanel>
+            <g:HorizontalPanel>
+                <g:Label addStyleNames="space">Result:</g:Label>
+                <g:FlexTable ui:field="resultsFlexTable" addStyleNames="marginLeftSmall"/>
+            </g:HorizontalPanel>
+
+        </g:VerticalPanel>
+    </g:ScrollPanel>
+</ui:UiBinder>

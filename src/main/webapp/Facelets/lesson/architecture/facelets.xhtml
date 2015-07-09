@@ -1,0 +1,34 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+    <h4>Resolving the view</h4>
+
+    The <span class="italic">Facelets</span> view technology uses the server side view resolver to find the view file based on the lesson view name from URL,
+    that is name after last slash in the URL (e.g. for the  <span class="italic">/facelets/lesson/model_view_injection</span> URL, the lesson view name is
+    <span class="italic">model_view_injection</span>). Spring does not support the <span class="italic">Facelets</span> view technology by default, therefore it
+    has been used the <span class="className">UrlBasedViewResolver</span> class with the custom view class (<span class="className">FaceletsView</span>),
+    which supports <span class="italic">Facelets</span> as a view. <span class="className">LessonController</span> (Spring controller) uses the lesson view name from the URL to find the lesson,
+    which will be used by the view resolver to prepare the HTML page.
+    Main view (<span class="italic">\src\main\webapp\facelets\index.xhtml</span>) is a template,
+    which uses a JSF bean to provide the lesson name and paths to the security problem description and solution HTML pages.
+    <span class="className">LessonController</span> initializes this bean with the proper values for the specified lesson.
+
+</div>

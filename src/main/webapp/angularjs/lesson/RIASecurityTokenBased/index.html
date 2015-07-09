@@ -1,0 +1,85 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div ng-controller="RIASecurityTokenBasedController">
+
+    <div class="lessonIntroduction paddingAll">
+        In this lesson there are three tabs:
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                public - containing the not protected message, that is available under the
+                request to the /facelets/riaToken/public URL
+            </li>
+            <li  class="list-group-item">
+                secret - containing the secret message, that is available under the request to the
+                /facelets/riaToken/secret URL (the content is visible only for the authenticated
+                users)
+            </li>
+            <li  class="list-group-item">
+                administrator - containing the secret message, that is available under the request to the
+                /facelets/riaToken/secret URL (the content is visible only for the authenticated
+                users with the administrator role)
+            </li>
+        </ul>
+
+        If an unauthenticated user clicks on the <span class="italic">secret</span> or
+        <span class="italic">administrator</span> tab (or an authenticated user without the
+        <span class="italic">ADMIN</span> role
+        clicks on the <span class="italic">administrator</span> tab), he will see the empty content
+        instead of the secret message, due to using the Spring Security configuration, that is shown below:
+
+
+       <pre>
+           <code>
+&lt;http auto-config="true" use-expressions="true"&gt;
+    &lt;intercept-url pattern="/facelets/riaToken/secret" access="isAuthenticated()"/&gt;
+    &lt;intercept-url pattern="/facelets/riaToken/admin" access="hasRole('ROLE_ADMIN')"/&gt;
+    &lt;remember-me user-service-ref="userDetailsService"/&gt;
+&lt;/http&gt;
+           </code>
+       </pre>
+
+        Please be aware that protected is only the message from the server (not the entire content of the tab).
+        <br/>
+        <br/>
+        To complete the lesson, you have to provide, that after clicking on the
+        <span class="italic">secret</span> or <span class="italic">administrator</span> tab, an unauthenticated person will see the login page (available under the
+        <span class="italic">/angularjs/#/RIASecurityCookieBased/lesson/loginTab</span> URL) instead of the empty
+        content. The same process should be performed, if an authenticated person, but without <span class="italic">ADMIN</span> role, clicks on the
+        <span class="italic">administrator</span> tab.
+
+    </div>
+
+
+    <ul class="nav nav-tabs">
+
+        <li ng-class="{active: $routeSegment.contains('publicTab')}">
+            <a href="#/RIASecurityTokenBased/lesson/publicTab">Public</a>
+        </li>
+        <li ng-class="{active: $routeSegment.contains('secretTab')}">
+            <a href="#/RIASecurityTokenBased/lesson/secretTab">Secret</a>
+        </li>
+        <li ng-class="{active: $routeSegment.contains('administratorTab')}">
+            <a href="#/RIASecurityTokenBased/lesson/administratorTab">Administrator</a>
+        </li>
+    </ul>
+
+    <div app-view-segment="1" class="anim paddingAll">No tab selected.</div>
+</div>

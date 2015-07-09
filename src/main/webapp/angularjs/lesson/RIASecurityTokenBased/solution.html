@@ -1,0 +1,221 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+    The Spring Security configuration providing the stateless authentication is
+    shown below:
+     <pre>
+        <code>
+&lt;http pattern="/facelets/riaToken/**"
+          use-expressions="true"
+          create-session="stateless"
+          entry-point-ref="unauthorizedTokenEntryPoint"
+          authentication-manager-ref="authenticationManager"&gt;
+    &lt;custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"/&gt;
+    &lt;intercept-url pattern="/facelets/riaToken/secret" access="isAuthenticated()"/&gt;
+    &lt;intercept-url pattern="/facelets/riaToken/admin" access="hasRole('ROLE_ADMIN')"/&gt;
+&lt;/http&gt;
+        </code>
+    </pre>
+    The <span class="italic">auto-config="true"</span> attribute used in all other lessons
+    is removed, because this solution uses the custom authentication (default value is
+    false). The <span class="italic">create-session="stateless"</span> attribute provides that <span class="italic">Spring Security</span> filter
+    will not create any session and will not use the session even if it is already created.
+    In all of the other lessons using <span class="italic">Spring Security</span>, the access to the resources
+    was based only on the authentication (the role of the person has not been taken
+    into account). This configuration provides, that the access to the
+    resource under the <span class="italic">/api/riaToken/secret</span> URL have got only authenticated users,
+    but to the resource under the <span class="italic">/api/riaToken/admin</span> URL - only users with
+the ADMIN role. The value of the <span class="italic"> entry-point-ref</span> attribute points to the
+implementation of the  <span class="className">AuthenticationEntryPoint</span> interface to provide a custom
+error code (403 in this solution) in the case of authentication or authorization error. This interface contains only one method
+(<span class="italic">commence</span>), which is called when
+an authentication exception is detected. Proposed implementation of this method
+making that the custom error code will be sent, has got the following one-line body:
+<br/>
+<code>
+    response.sendError(403);
+</code>
+<br/>
+<br/>
+To provide a token,
+there are some libraries implementing the standard of JSON Web Token (JWT).
+JWT is a relatively new token format which allows to transfer a message encoded
+as a JSON object, that is digitally signed using JSON Web Signature (JWS). In some libraries implementing JWT have been found some vulnerabilities
+allowing attackers to bypass the verification step. Because of that and to better
+understand how the token-based authentication works, this solution explains the
+custom implementation of the token. Additionally this approach has got a better
+didactic value then using a library.
+<br/>
+Listing below contains the most important methods of the TokenUtils class, that
+are responsible for the token creation and validation:
+
+<pre>
+    <code>
+public static String createToken(UserDetails userDetails) {
+    long expiresTime = calculateExpirationTime();
+    String token = userDetails.getUsername() + SEPARATOR +
+                                    expiresTime + SEPARATOR +
+                                    TokenUtils.computeSignature(userDetails, expiresTime);
+    return token;
+}
+
+private static String computeSignature(UserDetails userDetails, long expires) {
+    MessageDigest messageDigest = getMD5Digest();
+    String signature = userDetails.getUsername() + SEPARATOR +
+    expires + SEPARATOR +
+    userDetails.getPassword() + SEPARATOR +
+    TokenUtils.SECRET_KEY;
+    byte[] signatureInBytes = signature.getBytes();
+    byte[] digest = messageDigest.digest(signatureInBytes);
+    return new String(Hex.encode(digest));
+}
+
+public static boolean validateToken(String authToken, UserDetails userDetails) {
+    boolean valid = false;
+    String[] parts = authToken.split(SEPARATOR);
+    long expires = Long.parseLong(parts[1]);
+    String signature = parts[2];
+
+    if (expires >= System.currentTimeMillis()) {
+        valid = signature.equals(TokenUtils.computeSignature(userDetails, expires));
+    }
+    return valid;
+}
+   </code>
+ </pre>
+
+    The custom token format as follows: <span class="italic">username:expiration_time:signature</span>.
+    <br/>
+    The <span class="italic">createToken</span> method creates
+    the token based on the username and passwords (from the  <span class="className">UserDetails</span> interface).
+    The <span class="italic">computeSignature</span> method calculates the digest (using the Message-Digest algorithm
+    5 (MD5) function) based on the user details, expiration time and secret
+    key. The <span class="italic">validateToken</span> method validates the token, which contains the following
+    steps:
+    <ul class="list-group">
+        <li class="list-group-item">
+            Splitting the received string based on the : separator.
+        </li>
+        <li class="list-group-item">
+            Checking if the expiration time is greater than the current time and if it is, than
+            calculating the signature using the same methods as to create token's signature.
+        </li>
+        <li class="list-group-item">
+            Returning the result of the comparison of the calculated and received signatures
+            or returning <span class="italic">false</span>, if the expiration time is less than the current time.
+        </li>
+    </ul>
+
+    <br/>
+    The username and expiration time from the token are very easy to forge, however
+    it will not cause any danger, because of the necessity that, the received and
+    calculated signatures must be in accordance. The signature is not easy to forge,
+    because to calculate it, the MD5 digest and secret key have been used. This lesson requires a custom filter to
+    provide a proper authentication and
+    authorization based on the token. Proposed implementation of the  <span class="italic">doFilter</span> method
+    is shown below:
+
+    <pre>
+        <code>
+@Override
+public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException
+{
+    HttpServletRequest httpRequest = (HttpServletRequest) request;
+
+    String authToken = httpRequest.getHeader("X-Auth-Token");
+    String userName = TokenUtils.getUsernameFromToken(authToken);
+
+    if (userName != null) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+
+        if (TokenUtils.validateToken(authToken, userDetails)) {
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+    }
+    chain.doFilter(request, response);
+}
+        </code>
+    </pre>
+
+    The method reads the token from the request header and takes the username from the token. The username allows the get
+    user details and validate the token. If the token is valid, the filter adds
+    the user's authorities to the context of this request. Other filters will check the
+    user's authorities and will deny or will grant the access to the requested resource.
+    If token is not valid, the authentication details will not be set and other filters will
+    deny the access.
+    <br/>
+    Token can be stored in the local storage in the browser (feature of HTML5), which
+    means that is not automatically sent by the browser such as cookies. This is safer
+    solution, because it make impossible the CSRF attack, however it causes, that
+    this token must be added in each request on one's own. The AngularJS requests
+    interceptor can simplify this task modifying the request before sending. Proposed
+    implementation of this interceptor adding the <span class="italic">X-Auth-Token</span> header with the token
+    as a value is shown below:
+
+    <pre>
+        <code>
+$httpProvider.interceptors.push(function ($q, $rootScope, $location, $window) {
+    return {
+        'request': function (config) {
+            if (config.url.indexOf('RIA') > -1 && config.url.indexOf('login') == -1) {
+                lastURL = $location.path();
+            }
+
+            var isRestCall = config.url.indexOf('RIA') > -1 || config.url.indexOf('ria') > -1;
+            var authToken = $window.localStorage.token;
+            if (isRestCall && authToken != "undefined") {
+                config.headers['X-Auth-Token'] = authToken;
+            }
+            return config || $q.when(config);
+        }
+    };
+});
+        </code>
+    </pre>
+
+    At the end, the user should create the
+    response interceptor to provide a redirection to the login page in case of the 403 or 401
+    response code:
+
+    <pre>
+        <code>
+
+$httpProvider.interceptors.push(function ($q, $rootScope, $location) {
+    return {
+        'responseError': function (rejection) {
+            var status = rejection.status;
+            if (status == 401 || status == 403) {
+                $location.path("/RIASecurityTokenBased/lesson/loginTab");
+            }
+            return $q.reject(rejection);
+         }
+    };
+});
+        </code>
+    </pre>
+
+
+</div>

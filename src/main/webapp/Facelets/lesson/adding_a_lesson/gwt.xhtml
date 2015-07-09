@@ -1,0 +1,103 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+    You should read the content of the <span class="italic">Description</span> tab before reading the information below.
+
+    <h4>Adding class representing the lesson</h4>
+
+    To add a class representing lesson you should extend already prepared adapter for GWT view technology - <span
+        class="className">GWTLessonAdapter</span>.
+
+    <h4>Adding view files for the lesson</h4>
+
+    For lesson with <span class="italic">ExampleLesson</span> view name, the view files path are
+
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    \src\main\java\com\webhiob\gwt\lesson\ExampleLesson.java
+                </li>
+                <li class="list-group-item">
+                    \src\main\java\com\webhiob\gwt\lesson\ExampleLesson.ui.xml
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    To create view in this technology you should provide:
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    XML file representing GWT UI
+                </li>
+                <li class="list-group-item">
+                    Java class extending <span class="className">Composite</span> class and implementing <span class="className">GWTLesson</span> interface connected with XML UI file
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    XML file (<span class="italic">ExampleLesson.ui.xml</span>) should have the following content:
+
+    <pre >
+    <code class="xml">
+     &lt;ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+                 xmlns:g="urn:import:com.google.gwt.user.client.ui"&gt;
+         &lt;g:VerticalPanel&gt;
+
+             &lt;!-- lesson UI here --&gt;
+
+         &lt;/g:VerticalPanel&gt;
+     &lt;/ui:UiBinder&gt;
+    </code>
+    </pre>
+
+
+    <h5>HTML files for the security problem description and solution</h5>
+
+    For lesson with <span class="italic">ExampleLesson</span> view name, the path for  <span class="italic">solution.html</span> and
+    <span class="italic">problem.html</span> files is
+    <span class="italic">\src\main\webapp\GWT\lesson\ExampleLesson\</span>.
+
+    <br/>
+    To take advantage of the code syntax highlighter it is required to provide HTML page with the following content:
+
+    <pre>
+        <code class="html">
+
+            &lt;html&gt;
+            &lt;head&gt;
+                &lt;link rel="stylesheet" href="../../../shared/highlight/styles/default.css"/&gt;
+                &lt;script src="../../../shared/highlight/highlight.pack.js"&gt;&lt;/script&gt;
+                &lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+            &lt;!-- security problem description or solution --&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+
+        </code>
+
+    </pre>
+
+</div>

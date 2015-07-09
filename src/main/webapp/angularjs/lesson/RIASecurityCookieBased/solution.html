@@ -1,0 +1,79 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+    The simplest way to solve this problem could be using the same approach as
+    introduced in the solution of the Automatic redirect to the login page after session
+    expires lesson. However if the application has got many places requiring the
+    access to the secured content, it will be very inconvenient to handle the codes
+    of the responses in all places. However the AngularJS framework provides a
+    solution to this problem - an interceptor, that allows to the global errors handling,
+    pre-processing of requests or postprocessing of responses.
+
+    <br/>
+    The default Spring Security configuration uses the stateful (cookie-based) approach.
+    All requests from AngularJS are through Ajax, therefore there is no need
+    to distinguish between kinds of the requests. It allows to use a simpler approach
+    than shown in the solution of the Automatic redirection to the login page after the
+    session expires lesson - there is no need to use a filter. To solve this lesson, the
+    function sending the Ajax request and receiving the response has to recognize if the
+    response code means redirection. It is not possible to handle the HTTP redirect code
+    (302) through JavaScript from the browser, however it is enough to change the response
+    code sending by the Spring Security filter, when there is a problem with the
+    authentication. It could be done using a filter, but also by adding the <span class="italic">entry-point-ref</span>
+    attribute to the <span class="italic">http</span> tag in the <span class="italic">Spring Security</span> configuration.
+    The value of this attribute has to point to the class implementing the <span class="className">AuthenticationEntryPoint</span> interface.
+    This interface contains only one method (<span class="italic">commence</span>), which is called when
+    an authentication exception is detected. Proposed implementation of this method
+    making that the custom error code will be sent, has got the following one-line body:
+    <br/>
+    <code>
+        response.sendError(901);
+    </code>
+    <br/>
+    <br/>
+
+    The main AngularJS file of WebHiob (<span class="italic">\src\main\webapp\angularjs\js\main.js</span>)
+    requires adding an interceptor, that redirects to the login page in the case of the
+    authentication error (901). Proposed implementation of the interceptor is shown below:
+
+    <pre>
+        <code>
+
+$httpProvider.interceptors.push(function ($q, $rootScope, $location) {
+    return {
+            'responseError': function (rejection) {
+                var status = rejection.status;
+                if (status == 901) {
+                    $location.path("/RIASecurityCookieBased/lesson/loginTab");
+                }
+                return $q.reject(rejection);
+            }
+    };
+});
+        </code>
+    </pre>
+
+    The code checks the response status and redirects to the login page
+    (line 5) if the server responses with the 901 code (line 6).
+    <br/>
+    <br/>
+    After providing the described above solution for this lesson and clicking on the
+    secret tab as an unauthenticated user, the user should see the login page.
+</div>

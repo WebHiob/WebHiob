@@ -1,0 +1,102 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+    Adding new lessons follows the principles <span class="italic"> convention over configuration</span>.
+    It means that if the rules are followed, then the lesson will be automatically configured.
+    It makes adding the new lesson very easy. To add a lesson designer should create at least the four files:
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    class representing the lesson.
+                </li>
+                <li class="list-group-item">
+                    view file for the lesson.
+                </li>
+                <li class="list-group-item">
+                    HTML file for the security problem description.
+                </li>
+
+                <li class="list-group-item">
+                    HTML file solution description.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <h4>Adding class representing the lesson</h4>
+
+    To add a class representing lesson designer has to create a class implementing <span
+        class="className">Lesson</span> interface and provide implementation for all methods.
+    To simplify this task, there is prepared <span
+        class="className">AbstractLesson</span> class, that implements the <span
+        class="italic">getName</span> method (returns name of the class with spaces between words in CamelCase notation e.g. for class
+    <span class="className">JQPLInjection</span>, the method returns <span class="italic">JPQL Injection</span>) and
+    <span class="italic">getViewName</span>
+    (returns name of the class) methods. Next facilitation are classes <span
+        class="className">AngularJSLessonAdapter</span>, <span class="className">GWTLessonAdapter</span>
+    and <span class="className">FaceletLessonAdapter</span> providing implementation for <span
+        class="italic">getTechnology</span> and <span class="italic">getUrl</span>
+    methods depending on view technology. It means that to add custom class representing lesson it is enough to extend one of this adapter and implement only one method -
+    <span class="italic">getCategory</span> (as it does the classes <span class="className">JQPLInjection</span> and
+    <span class="className">ELInjection</span>
+    shown on the class diagram).
+    However there is always possibility to change an inherited method by overriding it (as it does the class <span
+        class="className">RIASecurityCookieBased</span>
+    shown on the class diagram). Class hierarchy of classes mentioned above is shown on the class diagram. <span
+        class="className">LessonCategory</span>
+    and <span class="className">LessonTechnology</span> are enum classes, which means that to extend <span
+        class="italic">WebHiob</span> with new category/technology
+    it is required to provide new values for the enum.
+
+    <figure>
+        <img src="/Facelets/lesson/adding_a_lesson/diagram.png"/>
+        <figcaption style="text-align: center;">Class diagram of classes implementing <span
+                class="className">Lesson</span> interface
+        </figcaption>
+    </figure>
+
+
+    <h4>Adding view files for the lesson</h4>
+    Depending on view technology designer should provide different view files and put them in different catalogue.
+    The architecture of <span class="italic">WebHiob</span> takes care of adding name of the lesson
+    (the value returned by the <span class="italic">getName</span> method from class representing lesson) to each one.
+    <br/>
+    For all technologies you should create folder with a name the same as value returned by <span
+        class="italic">getViewName</span> method in the class representing the lesson.
+    Inside this folder put file with name <span class="italic">index</span> and extension <span
+        class="italic">html</span> for AngularJS or
+    <span class="italic">xhtml</span> for Facelets (no view files for GWT inside this folder).
+    For GWT create a Java class with the name created with the rule described for two others technologies, however in different folder.
+
+    <h5>HTML files for the security problem description and solution</h5>
+
+    For all technology designer should provide HTML files for the security problem ( <span
+        class="italic">security.html</span>) and solution (<span class="italic">solution.html</span>)
+    with names and extensions given in the brackets. These files can contain only content of the typical body tag, which means that the simple example of
+    the whole <span class="italic">solution.html</span> file could be:
+
+    <code class="html">
+        &lt;div&gt; here is solution &lt;/div&gt;
+    </code>
+
+
+</div>

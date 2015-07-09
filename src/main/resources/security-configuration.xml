@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+    <beans:bean id="sessionTimeoutPeriodicAjaxRequestFilter"
+                class="com.webhiob.shared.security.filter.SessionTimeoutPeriodicAjaxRequestFilter"/>
+    <beans:bean id="automaticRedirectionAfterSessionTimeoutFilter"
+                class="com.webhiob.shared.security.filter.AutomaticRedirectionAfterSessionTimeoutFilter"/>
+
+    <beans:bean id="authenticationTokenProcessingFilter"
+                class="com.webhiob.shared.security.filter.AuthenticationTokenProcessingFilter">
+        <beans:constructor-arg ref="userDetailsService"/>
+    </beans:bean>
+
+    <beans:bean id="unauthorizedTokenEntryPoint" class="com.webhiob.shared.security.UnauthorizedTokenEntryPoint"/>
+    <beans:bean id="unauthorizedCookieEntryPoint" class="com.webhiob.shared.security.UnauthorizedCookieEntryPoint"/>
+
+    <global-method-security secured-annotations="enabled"/>
+
+
+    <http auto-config="true" use-expressions="true" pattern="/facelets/session_timeout_with_periodic_ajax_request/**">
+        <intercept-url pattern="/facelets/session_timeout_with_periodic_ajax_request/lesson"
+                       access="isAuthenticated()"/>
+        <intercept-url pattern="/facelets/session_timeout_with_periodic_ajax_request/secret"
+                       access="isAuthenticated()"/>
+        <form-login
+                login-page="/facelets/session_timeout_with_periodic_ajax_request/login"
+                authentication-failure-url="/facelets/session_timeout_with_periodic_ajax_request/login?error=true"
+                default-target-url="/facelets/session_timeout_with_periodic_ajax_request/lesson"
+                always-use-default-target="false"/>
+        <remember-me user-service-ref="userDetailsService"/>
+        <logout logout-url="/logout"
+                logout-success-url="/facelets/session_timeout_with_periodic_ajax_request/login"/>
+    </http>
+
+    <http auto-config="true" use-expressions="true" pattern="/facelets/automatic_redirection_after_session_timeout/**">
+        <intercept-url pattern="/facelets/automatic_redirection_after_session_timeout/lesson"
+                       access="isAuthenticated()"/>
+        <form-login
+                login-page="/facelets/automatic_redirection_after_session_timeout/login"
+                authentication-failure-url="/facelets/automatic_redirection_after_session_timeout/login?error=true"
+                default-target-url="/facelets/automatic_redirection_after_session_timeout/lesson"
+                always-use-default-target="false"/>
+        <remember-me user-service-ref="userDetailsService"/>
+        <logout logout-url="/logout"
+                logout-success-url="/facelets/automatic_redirection_after_session_timeout/login"/>
+    </http>
+
+
+    <http auto-config="true" use-expressions="true" pattern="/facelets/riaToken/**">
+        <intercept-url pattern="/facelets/riaToken/secret" access="isAuthenticated()"/>
+        <intercept-url pattern="/facelets/riaToken/admin" access="hasRole('ROLE_ADMIN')"/>
+        <remember-me user-service-ref="userDetailsService"/>
+    </http>
+
+
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/facelets/riaCookie/secret" access="isAuthenticated()"/>
+        <remember-me user-service-ref="userDetailsService"/>
+    </http>
+
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService"/>
+    </authentication-manager>
+
+
+    <authentication-manager id="authenticationManager">
+        <authentication-provider user-service-ref="userDetailsService"/>
+    </authentication-manager>
+
+    <user-service id="userDetailsService">
+        <user name="user" password="user" authorities="ROLE_USER"/>
+        <user name="admin" password="admin" authorities="ROLE_ADMIN, ROLE_USER"/>
+    </user-service>
+
+
+    <!--
+    //
+    //
+    // Solution of the Session Timeout with periodic Ajax request lesson
+    //
+    //
+    //
+    //
+    //
+    //
+       <http auto-config="true" use-expressions="true" pattern="/facelets/session_timeout_with_periodic_ajax_request/**">
+        <intercept-url pattern="/facelets/session_timeout_with_periodic_ajax_request/lesson" access="isAuthenticated()"/>
+        <intercept-url pattern="/facelets/session_timeout_with_periodic_ajax_request/secret" access="isAuthenticated()"/>
+        <custom-filter ref="sessionTimeoutPeriodicAjaxRequestFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
+        <form-login
+                login-page="/facelets/session_timeout_with_periodic_ajax_request/login"
+                authentication-failure-url="/facelets/session_timeout_with_periodic_ajax_request/login?error=true"
+                default-target-url="/facelets/session_timeout_with_periodic_ajax_request/lesson"
+                always-use-default-target="false"/>
+        <remember-me user-service-ref="userDetailsService"/>
+        <logout logout-url="/logout"
+                logout-success-url="/facelets/session_timeout_with_periodic_ajax_request/login"/>
+    </http>
+
+    -->
+    <!--
+   //
+   //
+   // Solution of the Automatic redirection to the login page after the session expires lesson
+   //
+   //
+   //
+   //
+   //
+   //
+    <http auto-config="true" use-expressions="true" pattern="/facelets/automatic_redirection_after_session_timeout/**">
+        <intercept-url pattern="/facelets/automatic_redirection_after_session_timeout/lesson" access="isAuthenticated()"/>
+        <custom-filter ref="automaticRedirectionAfterSessionTimeoutFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
+        <form-login
+                login-page="/facelets/automatic_redirection_after_session_timeout/login"
+                authentication-failure-url="/facelets/automatic_redirection_after_session_timeout/login?error=true"
+                default-target-url="/facelets/automatic_redirection_after_session_timeout/lesson"
+                always-use-default-target="false"/>
+        <remember-me user-service-ref="userDetailsService"/>
+        <logout logout-url="/logout"
+                logout-success-url="/facelets/automatic_redirection_after_session_timeout/login"/>
+    </http>
+   -->
+
+    <!--
+    //
+    //
+    //
+    // solution of the Rich Internet Application security with cookie-based authentication lesson
+    //
+    //
+    //
+    //
+    //
+      <http auto-config="true" use-expressions="true" entry-point-ref="unauthorizedCookieEntryPoint">
+        <intercept-url pattern="/facelets/riaCookie/secret" access="isAuthenticated()"/>
+        <remember-me user-service-ref="userDetailsService"/>
+    </http>
+    -->
+
+
+    <!--
+  //
+  //
+  //
+  // solution of the Rich Internet Application security with token-based authentication lesson
+  //
+  //
+  //
+  //
+  //
+    <http pattern="/facelets/riaToken/**"
+            use-expressions="true"
+            create-session="stateless"
+            entry-point-ref="unauthorizedTokenEntryPoint"
+            authentication-manager-ref="authenticationManager">
+        <custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"/>
+        <intercept-url pattern="/facelets/riaToken/secret" access="isAuthenticated()"/>
+        <intercept-url pattern="/facelets/riaToken/admin" access="hasRole('ROLE_ADMIN')"/>
+    </http>
+  -->
+
+
+</beans:beans>

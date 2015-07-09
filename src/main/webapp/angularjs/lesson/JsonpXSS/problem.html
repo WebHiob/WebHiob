@@ -1,0 +1,48 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+    Using the JSONP technique requires trust, that a data provider sends a valid
+    data without any malicious part. Unlike to CORS request,
+    after receiving the results, there is no way to validate a data, therefore an attacker can
+    provide any XSS attack. The method from the <span class="className">JsonpXSSAngularController</span> class returning the malicious JSONP response
+    is shown below:
+
+   <pre><code class="java">
+       @RequestMapping(value = "/insecure")
+       public String insecureJsonp(@RequestParam(value = "callback") String callback)
+       {
+            return callback + "({date:\"09:04:49\", attack:alert(\"JSONP XSS\")});";
+       }
+   </code>
+      </pre>
+
+    This method symbolises the method from the external server, which source
+    code is not public disclosed (thus there is no way to change this method). JSONP
+    response from this server is shown below:
+    <br/>
+    <code>
+        CALLBACK({date:"09:04:49", attack:alert("JSONP XSS")});
+    </code>
+    <br/>
+    Second part of the returned JSON will be interpreted as
+    a JavaScript command and executed. In this example the user will only see an alert
+    message, but attacker can provide much more complex XSS attack.
+</div>

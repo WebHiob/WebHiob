@@ -1,0 +1,102 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+   To solve this security problem, it is required to provide a custom filter by adding the <span class="italic">custom-filter</span> tag
+    (with a reference to the custom filter class) to the <span class="italic">Spring Security</span> configuration as a child of the
+    <span class="italic">http</span> tag as follows:
+
+    <pre>
+       <code>
+&lt;custom-filter ref="sessionTimeoutPeriodicAjaxRequestFilter" after="EXCEPTION_TRANSLATION_FILTER"/&gt;
+       </code>
+   </pre>
+
+    The custom filter class proposed by WebHiob extends
+    <span class="className">GenericFilterBean</span> and overrides the <span class="italic">doFilter</span> method. This overriding below:
+
+   <pre>
+       <code>
+public class SessionTimeoutPeriodicAjaxRequestFilter extends GenericFilterBean {
+    private static final long SESSION_TIMEOUT_IN_MS = 1000 * 60 ;
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+                                        throws IOException, ServletException {
+    HttpServletRequest httpRequest = (HttpServletRequest) request;
+
+     if (! ClickUtils.isAjaxRequest(httpRequest)) {
+        chain.doFilter(new SessionAccessAwareRequest(httpRequest), response);
+        return;
+     }
+
+      boolean expired = false;
+      HttpSession session = httpRequest.getSession(false);
+      if (session == null) {
+           expired = true;
+      } else {
+           Long lastAccessTime =
+                    (Long) session.getAttribute(SessionAccessAwareRequest.LAST_ACCESS_SESSION_ATTR);
+           if (lastAccessTime == null ||
+                    lastAccessTime + SESSION_TIMEOUT_IN_MS &lt; System.currentTimeMillis()) {
+                session.invalidate();
+                expired = true;
+            }
+      }
+      if (!expired) {
+           chain.doFilter(request, response);
+      }
+  }
+}
+
+       </code>
+   </pre>
+
+   The custom filter divides the requests into two categories: Ajax and
+   non-Ajax requests. If a request is non-Ajax, the request is wrapped by
+   the <span class="className">SessionAccessAwareRequest</span>, that extends <span class="className">HttpServletRequestWrapper</span>
+   and then the method ends. Thereby when the <span class="italic">Spring Security</span> filter tries to
+   get or create session for the non-Ajax request, the application will add (or update)
+   the <span class="italic">LAST_ACCESS_SESSION_ATTR</span> attribute telling about the last accessing time to
+   the session. Fragment of the <span class="className">SessionAccessAwareRequest</span> class responsible for
+   adding this attribute is shown below:
+
+    <pre>
+        <code>
+    public HttpSession getSession(boolean create) {
+        HttpSession session = super.getSession(create);
+        if (session != null) {
+            session.setAttribute(LAST_ACCESS_SESSION_ATTR, System.currentTimeMillis());
+        }
+        return session;
+    }
+        </code>
+    </pre>
+
+    If there is an Ajax request, the filter will get the session (without creating one if there is no session).
+    If the session exists, the  <span class="italic">LAST_ACCESS_SESSION_ATTR</span> parameter is read
+    and compared to the current time increased by the session timeout.
+    If the session currently lasts more than timeout, it is invalidated. If the
+    session should not expire, the request and response are added to to chain of the
+    filter and then further performed by other filters, otherwise the expected response
+    will not be sent the to browser.
+    <br/>
+    To see the results faster, the session timeout (and countdown timer) can be changed.
+
+</div>

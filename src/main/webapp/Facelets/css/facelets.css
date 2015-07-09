@@ -1,0 +1,54 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+.centre
+{
+    text-align: center;
+}
+
+.className {
+    font-family: Consolas, monaco, monospace;
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.paddingAll {
+    padding: 15px;
+}
+
+
+.lessonIntroduction {
+    background-color: #f0f0f0;
+}
+
+.bigPadding {
+    padding-left: 75px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: center;
+}

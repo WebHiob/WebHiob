@@ -1,0 +1,58 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+    WebHiob uses the currently newest Spring version – 4.1.6.RELEASE, therefore
+    there is no way provide a lesson vulnerable to the EL injection attack, thus this
+    lesson is not interactive. The Spring versions affected to EL injection attack include:
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            3.0.0 to 3.0.5
+        </li>
+        <li class="list-group-item">
+            2.5.0 to 2.5.6.SEC02 (community releases)
+        </li>
+        <li class="list-group-item">
+            2.5.0 to 2.5.7.SR01 (subscription customers)
+        </li>
+        <li class="list-group-item">
+            Earlier versions may be also affected
+        </li>
+    </ul>
+
+    To fix this security issue the Spring framework has introduced a new context
+    parameter - <span class="italic">springJspExpressionSupport</span>, which set to false disable the double resolving
+    issue. However this parameter is only available in the following
+    versions [30]:
+    <ul class="list-group">
+        <li class="list-group-item">
+            3.0.6 onwards
+        </li>
+        <li class="list-group-item">
+            2.5.6.SEC03 onwards (community releases)
+        </li>
+        <li class="list-group-item">
+            2.5.7.SR02 (subscription customers)
+        </li>
+    </ul>
+
+    For others versions it is recommended to provide an input validation to avoid
+    that user's data will be interpreted as another EL expression.
+</div>

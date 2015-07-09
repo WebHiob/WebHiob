@@ -1,0 +1,50 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+    IIf the attacker sends the HTTP request with the following URL:
+    <br/>
+    <br/>
+    <span class="italic">http://www.example.com/error?msg=\${param.test}&amp;test=INJECTION</span>,
+    <br/>
+    <br/>
+    he will see the similar message as follows:
+    <br/>
+    <br/>
+     <span class="italic">No message found under code 'INJECTION' for locale 'en_US'.</span>
+    <br/>
+    <br/>
+    This happens due to the double resolving an EL expression – user's code is interpreted
+    as an EL expression and evaluated (first resolving), then this new value is
+    passed to the message tag in the JSP page and evaluated (second resolving). This
+    example does not cause any security issue, however it explains the principle of
+    operation of EL injection. More dangerous example provides the request with the
+    following value of the msg parameter:
+    <pre>
+        <code>
+            \${pageContext.request.getSession().setAttribute("admin",true)}.
+        </code>
+    </pre>
+    This request sets the session attribute about administration’s privileges to true,
+    which causes that if any other code anywhere checks this attribute and makes
+    a decision about sending sensitive data based on it, the attacker will receive the
+    data.
+
+</div>

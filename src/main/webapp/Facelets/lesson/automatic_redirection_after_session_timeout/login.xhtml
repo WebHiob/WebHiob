@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="../../index.xhtml">
+    <ui:define name="content">
+        Log on with the following credentials:
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        login - user
+                    </li>
+                    <li class="list-group-item">
+                        password - user
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+
+        <form action="j_spring_security_check" name="j_spring_security_check" method="post" class="well">
+            <fieldset>
+                <label for="j_username">Login</label><input id="j_username" name="j_username" type="text"/>
+                <label for="j_password">Password</label><input id="j_password" name="j_password" type="password"/>
+                <button type="submit" class="btn btn-success">Authenticate</button>
+            </fieldset>
+        </form>
+
+    </ui:define>
+</ui:composition>
+</html>

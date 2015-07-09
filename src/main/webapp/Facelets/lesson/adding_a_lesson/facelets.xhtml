@@ -1,0 +1,82 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+    You should read the content of the <span class="italic">Description</span> tab before reading the information below.
+
+    <h4>Adding class representing the lesson</h4>
+
+    To add a class representing lesson you should extend already prepared adapter for Facelets view technology - <span class="className">FaceletLessonAdapter</span>.
+
+    <h4>Adding view files for the lesson</h4>
+
+    For lesson with <span
+        class="italic">ExampleLesson</span> view name, the path for view file is \src\main\webapp\facelets\lesson\ExampleLesson\index.html.
+    <br/>
+
+    To create view for this technology it is enough to create <span
+        class="italic">index.xhtml</span> file with the following content:
+   <pre>
+        <code class="xml">
+             &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+             &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+             &lt;html xmlns="http://www.w3.org/1999/xhtml"
+                  xmlns:ui="http://java.sun.com/jsf/facelets"&gt;
+
+             &lt;ui:composition template="../../index.xhtml"&gt;
+                 &lt;ui:define name="content"&gt;
+
+                     &lt;!-- lesson UI here --&gt;
+
+                 &lt;/ui:define&gt;
+             &lt;/ui:composition&gt;
+             &lt;/html&gt;
+        </code>
+
+    </pre>
+
+    Java class connected with this UI file should have the following content:
+
+    <pre>
+        <code class="java">
+            public class ExampleLesson extends Composite implements GWTLesson {
+
+                interface ExampleLessonUiBinder extends UiBinder&lt;Widget, ExampleLesson&gt; {}
+
+                private static ExampleLessonUiBinder uiBinder = GWT.create(ExampleLessonUiBinder.class);
+
+                public ExampleLesson() {
+                    initWidget(uiBinder.createAndBindUi(this));
+
+                    /* lesson content */
+                }
+            }
+        </code>
+
+    </pre>
+
+    <h5>HTML files for the security problem description and solution</h5>
+
+    For lesson with <span class="italic">ExampleLesson</span> view name, the path for <span
+        class="italic">solution.html</span> and
+    <span class="italic">problem.html</span> files is
+    <span class="italic">\src\main\webapp\Facelets\lesson\ExampleLesson\</span>.
+
+</div>

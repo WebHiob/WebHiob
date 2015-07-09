@@ -1,0 +1,35 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+    <h4>Resolving the view</h4>
+
+    <span class="italic">WebHiob</span> finds a proper lesson class in GWT view technology using the lesson
+    view name from URL, which is a name after the hash (<span class="italic">#</span>) in the URL (e.g. for the
+    <span class="italic">/GWT/index.html#JPQLInjection</span> URL, the lesson view name is <span class="italic">JPQLInjection</span>). To
+    display a proper lesson, <span class="italic">WebHiob</span> has to create a classes representing the UI of the lessons.
+    GWT uses the view name to create an instance of the proper class. <span class="italic">WebHiob</span> uses
+    only client side GWT. WebHiob gets all lessons through AJAX request and then
+    builds the Tree view. The <span class="className">LessonsComposite</span> class provides the view template.
+    The <span class="className">LessonTabPanel</span> class takes care of providing displaying a proper lesson name
+    and tabs containing the proper content of the lesson and the security problem description
+    and solution HTML pages. Based on the view name from JSON response,
+    different lesson class is used to display in the lesson tab.
+</div>

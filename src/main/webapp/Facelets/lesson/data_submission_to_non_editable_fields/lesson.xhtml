@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="../../index.xhtml">
+    <ui:define name="content">
+
+        <div class="lessonIntroduction marginBottom">
+            Spring MVC provides an auto-binding feature, that causes, that the sent request’s
+            parameters are automatically bound to the chosen object [107]. For this
+            lesson the WebHiob environment provides:
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                    a form with two inputs – allowing to post the new name and daily limit (shown
+                    in the listing below) (to increase readability all tags and attributes responsible for the
+                    appearance have been removed))
+                </li>
+                <li class="list-group-item">
+                    the <span class="className">Account</span>  class – the class with properties with the same name as names of
+                    inputs from the form (shown in the listing below the form)
+                </li>
+                <li class="list-group-item">
+                    the <span class="italic">update</span> method – the method receiving the request’s parameters from the
+                    form (shown in the listing below the <span class="className">Account</span> class)
+                </li>
+            </ul>
+
+
+            <pre>
+                <code>
+&lt;form action="\#{request.contextPath}/facelets/data_submission_to_non_editable_fields/lesson"
+                                                                                method="post"&gt;
+            &lt;input type="text" name="name"/&gt;
+            &lt;input type="text" name="dailyLimit"/&gt;
+            &lt;button type="submit"/&gt;
+&lt;/form&gt;
+                </code>
+            </pre>
+
+            <pre class="java">
+                <code>
+                public class Account {
+                    private String login;
+                    private String name;
+                    private int dailyLimit;
+                }
+                </code>
+            </pre>
+
+            <pre class="java">
+                <code>
+                    @RequestMapping(method = RequestMethod.POST)
+                    public ModelAndView update(@ModelAttribute Account account) {
+                        accountManager.update(account);
+                        String login = account.getLogin();
+                        ModelMap map = new ModelMap();
+                        map.addAttribute(accountParameterName, accountRepository.find(login));
+                        map.addAttribute("confirmation", login +
+                                            " account has been successfully edited");
+                        return new ModelAndView(viewName, map);
+                    }
+                </code>
+            </pre>
+
+            Instead of reading each request's parameter separately and setting the value
+            to the object's property, the auto-binding feature makes that automatically. To
+            take advantage of it, the method's parameter has to have the <span class="className">@ModelAttribute</span>
+            annotation in the request mapping function. The <span class="italic">update</span> method belongs to the
+            <span class="className">DataSubmissionToNonEditableFieldsController</span>
+            class, that stores the <span class="className">Account</span> object in the session).
+
+            <div class="paddingAll">
+                Your login is <span class="italic">hacker</span> and you know that the other user's login is <span class="italic">victim</span>,
+                name is <span class="italic">Ela</span> and daily limit is 2000.
+                <br/>
+                To complete this lesson you have to change the daily limit of the <span class="italic">victim</span>'s account.
+            </div>
+        </div>
+
+
+        <div class="form-group has-success has-feedback">
+            <h4 class="control-label">${confirmation}</h4>
+        </div>
+
+
+        <h4>Your data </h4>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="login">login</label>
+                    <input type="text" class="form-control" id="login" placeholder="${account.login}"
+                           readonly="readonly"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="name">name</label>
+                    <input type="text" class="form-control" id="name" placeholder=" ${account.name}"
+                           readonly="readonly"/>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="dailyLimit">daily limit</label>
+                    <input type="text" class="form-control" id="dailyLimit" placeholder="  ${account.dailyLimit}"
+                           readonly="readonly"/>
+                </div>
+            </div>
+        </div>
+
+        <h4>Edit</h4>
+
+        <form class="form-inline" action="#{request.contextPath}/facelets/data_submission_to_non_editable_fields/lesson"
+              method="post">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="name" placeholder="name"/>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                    <input type="text" class="form-control" name="dailyLimit" placeholder="daily limit"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </ui:define>
+</ui:composition>
+</html>

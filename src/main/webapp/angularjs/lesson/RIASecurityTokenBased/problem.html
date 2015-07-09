@@ -1,0 +1,36 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+   The default <span class="italic">Spring Security</span> configuration uses the cookie-based authentication. RIA communicates with the
+   server using Ajax requests to avoid multiple re-downloading the whole pages. After
+   sending the request as an unauthenticated user, the Spring Security sends a redirect
+   response with the 302 HTTP code and URL to the login page. With non-Ajax
+   requests, the browser automatically redirects to the given page. After sending an
+   Ajax request through the function from the AngularJS or jQuery library, the response
+   HTTP code will be 200 and the received data will be the HTML source code
+   of the current page. It means that without a special effort, the user will not see the login page.
+   <br/>
+    <br/>
+    The additionally problem, that this lesson tries to solve it to prepare the server side for the scalability in the future.
+   To make it possible, one of the task, that should be done is to provide a stateless authentication.
+
+
+</div>

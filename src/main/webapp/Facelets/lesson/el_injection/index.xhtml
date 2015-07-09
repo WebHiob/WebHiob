@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="../../index.xhtml">
+    <ui:define name="content">
+
+        <div class="lessonIntroduction marginBottom">
+
+            Expression Language (EL) allows the web pages to communicate with the managed
+            beans. EL is used by JSF and JSP technology. Assume that there is
+            a JSP page containing the following code:
+
+        <pre>
+            <code>
+                &lt;spring:message code="\${param.msg}"/&gt;
+            </code>
+         </pre>
+
+
+            The Spring  <span class="italic">message</span> tag provides the internationalization support. The part
+            <span class="italic">\${param.msg}</span> provides an access to the request parameter with the
+            <span class="italic">msg</span> name. The example of the controller's method making use of this tag is shown:
+        <pre class="java">
+            <code>
+                @RequestMapping(value="/")
+                String index() {
+                    if ( hasErrors() ) {
+                        return "redirect:/error?msg=error.message";
+                    } else {
+                        return "index";
+                    }
+                }
+            </code>
+        </pre>
+            If there is an error while accessing the home page, the  <span class="italic">index</span> method will return
+            to the browser the error page and set the  <span class="italic">msg</span> parameter with the
+            <span class="italic">error.message</span> value, that will be translated into a message in a specified language.
+
+            <br/>
+            <br/>
+
+            To complete this lesson you should figure out how to set the <span class="italic">admin</span>
+            session attribute to <span class="italic">true</span> using EL Injection,
+            however you will not be able to perform this attack in <span class="italic">WebHiob</span> (read the <span
+                class="italic">Warning</span> below).
+
+        </div>
+
+        <h4>Warning</h4>
+        EL injection is no more possible since Spring Framework 4.0. Due to the many
+        applications that still use earlier versions and to do not make the same security
+        mistakes in new technologies, it is good to know about some typical historical
+        issues (Spring 4.0 was released in 12/2013, therefore it is not a very old-time
+        vulnerability).
+
+
+    </ui:define>
+</ui:composition>
+</html>

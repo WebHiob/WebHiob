@@ -1,0 +1,32 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+   WebHiob takes advantage of the auto-binding feature for the
+   <span class="className">Account</span> class. Instance of this class is stored in the session context, which
+   means that after calling the update method, the application will bind properties to
+   the already existing object. Based on the form, it could be inferred, that only
+   two fields will be bound, (name and dailyLimit) leaving the login field untouched.
+   However if the attacker changes the body of the request (e.g. using Zed Attack
+   Proxy (ZAP)) and adds the <span class="italic">login</span> field with some value e.g.
+    <br/>
+    <span class="italic">login=victim</span>,
+    <br/> then the auto-binding feature sets the new value also to the login field. In this way, the
+   attacker can change the daily limit of the victim's account.
+</div>

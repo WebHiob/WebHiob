@@ -1,0 +1,35 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+    <h4>Resolving the view</h4>
+
+    AnuglarJS uses its extension – <a href="http://angular-route-segment.com">angular-route-segment</a> to provide the tree-like
+    nested view and advanced flow handling. It makes easier to develop the web
+    pages with many tabs and tabs inside each tab (<span class="italic">WebHiob</span> takes advantage of this
+    feature in the session management lessons developed in AngularJS). This extension
+    is also used to resolve a view based on the lesson view name, which is a name after
+    first slash after hash (<span class="italic">#</span>) in URL (e.g. for the <span class="italic">/angularjs/#/JsonpXSS/lesson</span> URL,
+    the view name is <span class="italic">JsonpXSS</span>). Based on the view name, WebHiob provides a name of the lesson controller and
+    paths to security problem description and solution HTML
+    pages. The main AngularJS controller (<span class="italic">\src\main\webapp\angularjs\js\main.js</span>) initializes
+    the <span class="italic">jsTree</span> view and takes care of displaying the correct name of the lessons
+    above the lesson tab.
+</div>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.0//EN"
+        "http://google-web-toolkit.googlecode.com/svn/releases/2.0/distro-source/core/src/gwt-module.dtd">
+<module rename-to="GWT">
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.gwt.json.JSON"/>
+    <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+    <inherits name="com.google.gwt.http.HTTP"/>
+    <stylesheet src="css/gwt.css"/>
+
+    <entry-point class='com.webhiob.GWT.client.WebHiobEntryPoint'/>
+
+    <source path='client'/>
+    <source path='js'/>
+    <source path='lesson'/>
+    <source path='utils'/>
+
+    <generate-with class="com.webhiob.GWT.GWTClassGenerator">
+        <when-type-assignable class="com.webhiob.GWT.utils.GWTClassFromStringFactory"/>
+    </generate-with>
+
+</module>

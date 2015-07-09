@@ -1,0 +1,55 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+    Using <span class="className">UrlBasedViewResolver</span> (or any of its subclasses) brings a potential security
+    risk – it allows to bypass a security restriction and get access to files under
+    the <span class="italic">WEB-INF</span> directory, which should not be accessible directly be the user (the
+    good practice is to put files under the <span class="italic">WEB-INF</span> directory to hide them from direct
+    access). Theses files should be accessible only indirectly - through the controller,
+    that decides, which files should view the user. If the application uses the
+    user's data to directly resolve the view, the application is vulnerable to the <span class="italic">Spring
+    MVC ModelView Injection</span> attack. The vulnerable method is
+    shown below (from the <span class="className">ModelViewInjectionController</span> class):
+
+    <pre class="java">
+        <code>
+@RequestMapping()
+public ModelAndView getPlayers(@RequestParam("view") String view,
+                    @RequestParam(value = "team", defaultValue = "") String team) {
+    ModelMap map = addPlayersToMapBasedOnTeamName(team);
+    return new ModelAndView(view, map);
+}
+        </code>
+    </pre>
+
+    If you replace the value of the view as follows:
+    <div class="paddingAll">
+        <span class="italic">forward:/WEB-INF/web.xml</span> ((providing the following request:
+        <br/>
+        <span class="italic">http://localhost:&lt;port&gt;/facelets/model_view_injection?view=forward:/WEB-INF/web.xml</span>),
+    </div>
+    then you will see the <span class="italic">web.xml</span> file. This file contains sensitive configuration of the application
+    e.g. if the application uses Spring Security and stores passwords in the
+    configuration file, then based on the <span class="italic">web.xml</span> file, the attacker can find out what is the path
+    to the security configuration file and after accessing it in the same way, he can see
+    all usernames and passwords.
+
+</div>

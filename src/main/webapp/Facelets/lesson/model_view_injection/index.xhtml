@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="../../index.xhtml">
+    <ui:define name="content">
+
+        <div class="lessonIntroduction marginBottom">
+
+            Spring MVC requires a view resolver to prepare a proper HTML response based
+            on the view file. Spring controller should provide a method that will be called based
+            on the request mapping. This function returns a view, which should be sent to the
+            browser (it can be a simple string with a view file name). To make that Spring can
+            resolve a proper view, it is needed to define a view resolver in a Spring configuration
+            file. There is no one view resolver prepared for Facelets by Spring, therefore the
+            WebHiob environment uses the basic one - <span class="className">UrlBasedViewResolver</span> with a custom
+            view class providing a rendering the required response. <span class="className">UrlBasedViewResolver</span>
+            adds two extra options to control the execution flow: <span class="italic">redirect</span> and
+            <span class="italic">forward</span>, which is shown below:
+
+            <pre class="java">
+                <code>
+                    @Override
+                    protected View createView(String viewName, Locale locale) throws Exception {
+                    ...
+                        // Check for special "redirect:" prefix.
+                        if (viewName.startsWith(REDIRECT_URL_PREFIX)) {
+                            String redirectUrl = viewName.substring(REDIRECT_URL_PREFIX.length());
+                            RedirectView view = new RedirectView(redirectUrl,
+                            isRedirectContextRelative(),
+                            isRedirectHttp10Compatible());
+                            return applyLifecycleMethods(viewName, view);
+                        }
+                        // Check for special "forward:" prefix.
+                        if (viewName.startsWith(FORWARD_URL_PREFIX)) {
+                            String forwardUrl = viewName.substring(FORWARD_URL_PREFIX.length());
+                            return new InternalResourceView(forwardUrl);
+                        }
+                    ...
+                    }
+
+                </code>
+
+            </pre>
+
+            In this lesson you can see four players of one of three football's team: FC
+            Barcelona, Juventus and Manchester United. After clicking on one of team's name,
+            you will see that the request URL contains view parameter (which is used to resolve a Facelets view).
+            <br/>
+            <br/>
+            To complete this lesson the you change the URL to get the content of <span class="italic">web.xml</span> file under the <span class="italic">WEB-INF</span> directory,
+            to which access is default disabled.
+        </div>
+
+        <h4 class="paddingAll"> Choose football team to see its players</h4>
+
+        <div class="row ">
+            <div class="col-md-6">
+                <ul class="nav nav-tabs">
+                    <li class="#{param['team'].equals('barcelona') ? 'active' : ''}">
+                        <a href="/facelets/model_view_injection?view=model_view_injection/index&amp;team=barcelona">FC Barcelona</a>
+                    </li>
+                    <li class="#{param['team'].equals('juventus') ? 'active' : ''}">
+                        <a href="/facelets/model_view_injection?view=model_view_injection/index&amp;team=juventus">Juventus</a>
+                    </li>
+                    <li class="#{param['team'].equals('manchester') ? 'active' : ''}">
+                        <a href="/facelets/model_view_injection?view=model_view_injection/index&amp;team=manchester">Manchester United</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 centre">
+                <ul class="list-group">
+                    <ui:repeat var="player" value="${players}">
+                        <li class="list-group-item">${player}</li>
+                    </ui:repeat>
+                </ul>
+
+            </div>
+        </div>
+
+
+    </ui:define>
+</ui:composition>
+</html>

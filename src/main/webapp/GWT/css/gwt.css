@@ -1,0 +1,110 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+body {
+  padding: 10px;
+}
+
+.tableHeader {
+  background-color: #2062B8;
+  color: white;
+  font-style: italic;
+}
+
+.tableList {
+  border: 1px solid silver;
+  padding: 2px;
+  margin-bottom: 2px;
+}
+
+.gwt-TabPanel {
+    margin-top: 4px;
+    border: none;
+    width: 100%;
+    text-decoration: none;
+}
+
+.gwt-TabPanelBottom {
+    border: none #d0e4f6;
+    border-top-style: solid;
+}
+
+.gwt-TreeItem {
+    font-size: 16px;
+}
+
+.gwt-Label {
+    font-size: 16px;
+}
+
+.paddedHorizontalPanel {
+    padding: 15px;
+}
+
+.className {
+    font-family: Consolas, monaco, monospace;
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.marginLeftSmall {
+    margin-left: 10px;
+}
+
+.centreH1 {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
+}
+
+.centreH2 {
+    font-size: 26px;
+    text-align: center;
+    margin: 5px;
+}
+
+.label {
+    padding: 5px;
+    font-size: large;
+}
+
+.divContent {
+    font-size: 14px;
+    padding: 15px;
+    background-color: #f0f0f0;
+}
+.space {
+    margin-bottom: 10px;
+}
+
+.paddingRight {
+    padding-right: 5px;
+}
+
+.bigMarginLeft {
+    margin-left: 60px;
+}

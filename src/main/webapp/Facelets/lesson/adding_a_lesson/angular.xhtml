@@ -1,0 +1,77 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+    You should read the content of the <span class="italic">Description</span> tab before reading the information below.
+
+    <h4>Adding class representing the lesson</h4>
+    To add a class representing lesson you should extend already prepared adapter for AngularJS view technology - <span
+        class="className">AngularJSLessonAdapter</span>.
+
+    <h4>Adding view files for the lesson</h4>
+
+    For lesson with <span
+        class="italic">ExampleLesson</span> view name, the view file path is \src\main\webapp\angularjs\lesson\ExampleLesson\index.html.
+    <br/>
+    To create view in this technology designer should provide:
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    AngularJS controller
+                </li>
+                <li class="list-group-item">
+                    index.html file
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    AngularJS controller has to have the name starting with view name of the
+    class representing lesson and ending with Controller. Designer can put this controller
+    in already existing <span class="italic">\src\main\webapp\angularjs\js\main.js</span> file or in new file
+    (<span class="italic">\src\main\webapp\angularjs\js\controller</span> is recommended path),
+    however then designer has to add additional script tag with reference to this file in the end of head tag in the
+    <span class="italic">\src\main\webapp\angularjs\index.html</span> file. Example of empty controller for the
+    lesson with ExampleLesson view name is shown below:
+
+    <pre>
+        <code class="js">
+            app.controller('ExampleLessonController', function () {
+            /* body of controller */
+            }
+        </code>
+
+    </pre>
+
+    Lesson file ( <span class="italic">index.html</span>) has to have <span class="italic">div</span> tag with
+    <span class="italic">ng-controller</span> directive. Example of empty lesson file:
+    <code>
+        &lt;div ng-controller="ExampleLessonController"&gt; <!-- lesson UI here --> &lt;/div&gt;
+    </code>
+
+    <h5>HTML files for the security problem description and solution</h5>
+
+    For lesson with <span class="italic">ExampleLesson</span> view name, the path for <span
+        class="italic">solution.html</span> and
+    <span class="italic">problem.html</span> files is
+    <span class="italic">\src\main\webapp\angularjs\lesson\ExampleLesson\</span>.
+
+</div>

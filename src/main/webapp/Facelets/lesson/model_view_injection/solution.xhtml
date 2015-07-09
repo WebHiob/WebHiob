@@ -1,0 +1,55 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+
+    To protect from Spring MVC ModelView Injection attack it is recommended to
+    never allow, that user's input data are used directly to resolve any view. If it
+    is required, that user has got an impact to resolving the view, then the user's input
+    should be a number used by the server as a key in a map providing the proper
+    mapping (number to view name used by the view resolver). The protected method
+    and required variables with initialization are shown below:
+    <pre class="java">
+    <code>
+        private final String DEFAULT_VIEW = "model_view_injection/index";
+        private Map&lt;Integer, String&gt; viewMapping = new HashMap&lt;&gt;();
+
+        @PostConstruct
+        public void init() {
+            viewMapping.put(1, DEFAULT_VIEW);
+        }
+
+        public ModelAndView getPlayers(@RequestParam("view") int view,
+                            @RequestParam(value = "team", defaultValue = "") String team) {
+            String viewName = viewMapping.get(view);
+            if (viewName == null) {
+                viewName = DEFAULT_VIEW;
+            }
+            ModelMap map = addPlayersToMapBasedOnTeamName(team);
+            return new ModelAndView(viewName, map);
+        }
+    </code>
+    </pre>
+
+    If you try again to make the same request to get the content of the <span class="italic">web.xml</span>
+    file, you will see the response with 400 code because of the syntactically incorrect
+    request (due to the unsuccessful casting the value of the <span class="italic">view</span> parameter to an
+    integer). If you try to pass other view id than there is a value in the map, you will
+    get the default view.
+</div>

@@ -1,0 +1,170 @@
+<!--
+/***************************************************************************************************
+ *
+ *
+ * This file is part of WebHiob, an Robert Rozmus utility.
+ * WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute of Computer Science)
+ * Copyright (c) 2015 Robert Rozmus
+ *
+ * This program has got two licences:
+ *  1. For non-commercial use - you can redistribute it and/or modify it under the terms of the
+ *  		GNU General Public License version 3.0 (GPLv3);
+ *
+ *  2. For any commercial use (including payable academic lectures) - you must obtain the permission from the author
+ *  (Robert Rozmus) to use it in these purposes
+ *
+ * @author <a href="mailto:robertrozmusjob@gmail.com">Robert Rozmus</a>
+ */
+-->
+
+<div>
+    The sever side of <span class="italic">WebHiob</span> is developed in MVC architecture using the front controller design pattern (discussed in section \ref{Controller}).
+    It is reached by Spring framework and its Web MVC part.
+    \ey{WebHiob} provides an initialization method (in the <span
+        class="className">InitClass</span> class), which is called once after the starting of the application.
+    The <span class="italic">afterPropertiesSet</span> method from this class scans all classes representing the lessons (implementing <span
+        class="className">Lesson</span>  interface) located in the <span class="italic">com.webhiob.shared.lessons.lesson</span> package.
+    Next, this method creates the instances of the found classes representing lessons and adds them to the list of lessons.
+
+    <br/>
+    <br/>
+    URL to each lesson contains a specific beginning depending on the view technology.
+    These dependencies are shown in table below.
+    It is recommended to follow this convention while extending the <span class="italic">WebHiob</span> environment.
+    <br/>
+    <br/>
+    <table>
+        <tr>
+            <th>View technology</th>
+            <th>URL to lesson</th>
+        </tr>
+        <tr>
+            <td>Facelets</td>
+            <td>http://localhost:&lt;port&gt;/facelets/lesson/&lt;lesson_view_name&gt; </td>
+        </tr>
+        <tr>
+            <td>AngularJS</td>
+            <td>http://localhost:&lt;port&gt;/angularjs/#/&lt;lesson_view_name&gt;/lesson</td>
+        </tr>
+        <tr>
+            <td>GWT</td>
+            <td>http://localhost:&lt;port&gt;/GWT/index.html#/&lt;lesson_view_name&gt;</td>
+        </tr>
+    </table>
+
+    <h4>Directory structure</h4>
+
+    Directory structure of <span class="italic">WebHiob</span> has been designed keeping certain conventions allowing to quickly find any file. The directories in the <span class="italic">src</span> directory include:
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="italic">main/java</span> - java files;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">main/resources</span> - configuration files;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">main/webapp</span> - web application files such as (X)HTML, JavaScript, CSS;
+                </li>
+
+                <li class="list-group-item">
+                    <span class="italic">test/java</span> - automated tests.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    Contents of the <span class="italic">main/java</span> and <span class="italic">main/webapp</span> directory are divided into four packages/directories:
+
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="italic">angularjs</span> - files directly related to the <span class="italic">AngularJS</span> view technology;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">Facelets</span> - files directly related to <span class="italic">Facelets</span> view technology;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">GWT</span> - files directly related to <span class="italic">GWT</span> view technology;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">shared</span> - shared files for all technologies containing e.g. security filters (in the <span class="italic">java</span> directory) or JavaScript and CSS files (in the <span class="italic">webapp</span> directory).
+
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    All Spring controllers directly related to the lessons there are in the <span class="italic">lessoncontroller</span> package, which is in the package, whose name is connected with the specified view technology.
+
+    <h4>Resolving the view</h4>
+
+    All technologies use the tree view to show the lessons organized into the categories.
+    <span class="italic">GWT</span> uses the widget provided by this technology, however <span class="italic">Facelets</span> and <span class="italic">AngularJS</span> use the
+    <span class="italic"><a href="http://www.jstree.com/">jsTree</a></span>
+    plugin.All technologies retrieve the list of the lessons through AJAX request in the <span class="italic">JSON</span> format.
+    <span class="italic">jsTree</span> requires the specified data format, therefore to provide the cohesion among all view technologies,
+    <span class="italic">GWT</span> also uses this format. Fragment of JSON used in <span class="italic">WebHiob</span> is shown below:
+
+    <pre>
+    <code>
+[
+    {
+        "text": "Unvalidated Redirects And Forwards",
+        "category" : "UnvalidatedRedirectsAndForwards",
+        "children": [
+            {
+                "id": "/facelets/lesson/model_view_injection",
+                "text": "Spring MVC ModelView Injection (Facelets)",
+                "name": "Spring MVC ModelView Injection",
+                "viewName": "model_view_injection",
+                "technology": "Facelet"
+            },
+            {
+                /* next lesson */
+            }
+        ]
+    },
+    {
+        /* next category with lessons */
+    }
+]
+    </code>
+    </pre>
+
+    Having this data each view technology finds the view in a different way. The meaning of the fields is the following:
+
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="italic">id</span> - URL to the lesson;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">text</span> -  the name shown in the tree view;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">name</span> - name used as a lesson title;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">viewName</span> - name used to find view file connected with lesson;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">technology</span> - view technology in which the lesson has been developed;
+                </li>
+                <li class="list-group-item">
+                    <span class="italic">category</span> - category to which belongs the lesson.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    Specified information about resolving the view for each view technology can be found in the other tabs.
+
+</div>
