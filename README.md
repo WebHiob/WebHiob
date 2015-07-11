@@ -3,7 +3,7 @@
 Welcome in WebHiob - interactive learining environment for security of modern web applications.
 
 WebHiob was created a as part of the master thesis by Robert Rozmus (student of Warsaw University of Technology, Institute  of Computer Science).
-If you have any questions, please do not hesitate to contact with the <a href="mailto:robertrozmusjob@gmail.com">author</a>.
+If you have any questions, please do not hesitate to contact with <a href="mailto:robertrozmusjob@gmail.com">me</a>.
 
 Copyright (c) 2015 Robert Rozmus
 
@@ -25,7 +25,7 @@ Be aware that WebHiob uses <a href="https://projectlombok.org/index.html">Projec
 
 To run WebHiob you should use the gradle "build" task.
 
-
+Click <a href="https://www.youtube.com/watch?v=BPk--ovzrDU">here</a>  to see full video showing all steps to run.
 
 
 
